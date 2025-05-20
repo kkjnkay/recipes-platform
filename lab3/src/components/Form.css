@@ -1,0 +1,123 @@
+.form, .comment-form {
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .form input,
+  .form textarea,
+  .comment-form input,
+  .comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .form button,
+  .comment-form button {
+    background: #ff9800;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .form button:hover,
+  .comment-form button:hover {
+    background: #ff8c00;
+  }
+  
+  .comment {
+    background: #fff3cd;
+    padding: 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    border-left: 5px solid #ffa500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .comment strong {
+    color: #333;
+  }
+  
+  .comment button {
+    background: #ff3b30;
+    color: white;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  
+  .comment button:hover {
+    background: #e60000;
+  }
+  .form {
+    max-width: 400px;
+    margin: 60px auto;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  }
+  
+  .form input {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+  
+  .form button {
+    background: #2e7d32;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .form button:hover {
+    background: #1b5e20;
+  }
+  
+  .form h2 {
+    text-align: center;
+    color: #2e7d32;
+  }
+  
+  .google-btn {
+  background: #4285F4;
+  color: white;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 10px;
+  transition: background 0.3s;
+}
+
+.google-btn:hover {
+  background: #3367d6;
+}

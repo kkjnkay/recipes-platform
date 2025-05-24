@@ -1,0 +1,11 @@
+# Node
+node_modules/
+.env
+
+# React
+client/node_modules/
+client/build/
+
+# Mac/Win
+.DS_Store
+Thumbs.db

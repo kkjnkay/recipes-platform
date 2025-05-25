@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './MyRecipes.css';
+import { getAuth } from 'firebase/auth';
 
 export default function MyRecipes() {
   const [recipes, setRecipes] = useState([]);
@@ -8,22 +9,51 @@ export default function MyRecipes() {
   const [ingredients, setIngredients] = useState('');
   const [image, setImage] = useState('');
 
-  // ✅ 1. ЗАВАНТАЖЕННЯ РЕЦЕПТІВ з сервера
-  useEffect(() => {
-    fetch('http://localhost:5000/api/recipes')
-      .then(res => res.json())
-      .then(data => setRecipes(data))
-      .catch(err => console.error('Помилка при завантаженні:', err));
-  }, []);
+  const auth = getAuth();
+  const user = auth.currentUser;
 
-  // ✅ 2. ДОДАВАННЯ РЕЦЕПТУ через POST
+  useEffect(() => {
+  const auth = getAuth();
+  const unsubscribe = auth.onAuthStateChanged(currentUser => {
+    if (currentUser) {
+      fetch(`http://localhost:5000/api/recipes?uid=${currentUser.uid}`)
+        .then(res => res.json())
+        .then(data => {
+          if (Array.isArray(data)) {
+            setRecipes(data);
+          } else {
+            console.error('⚠ Очікувався масив, отримано:', data);
+            setRecipes([]);
+          }
+        })
+        .catch(err => {
+          console.error('❌ Помилка при завантаженні рецептів:', err);
+          setRecipes([]);
+        });
+    }
+  });
+
+  return () => unsubscribe();
+}, []);
+
   const addNewRecipe = () => {
+    if (!user) {
+      alert('Спочатку увійдіть у свій акаунт.');
+      return;
+    }
+
     if (!title || !time || !ingredients || !image) {
       alert('Будь ласка, заповніть усі поля.');
       return;
     }
 
-    const newRecipe = { title, time, ingredients, image };
+    const newRecipe = {
+      title,
+      time,
+      ingredients,
+      image,
+      uid: user.uid
+    };
 
     fetch('http://localhost:5000/api/recipes', {
       method: 'POST',
@@ -36,11 +66,10 @@ export default function MyRecipes() {
         setTime('');
         setIngredients('');
         setImage('');
-        // 🔄 оновлюємо список після додавання
-        return fetch('http://localhost:5000/api/recipes')
-          .then(res => res.json())
-          .then(data => setRecipes(data));
+        return fetch(`http://localhost:5000/api/recipes?uid=${user.uid}`);
       })
+      .then(res => res.json())
+      .then(data => setRecipes(Array.isArray(data) ? data : []))
       .catch(err => console.error('Помилка при додаванні:', err));
   };
 
@@ -58,14 +87,15 @@ export default function MyRecipes() {
       </div>
 
       <div className="recipes-grid">
-        {recipes.map((recipe, index) => (
-          <article key={index} className="recipe-card">
-            <img src={recipe.image} alt={recipe.title} />
-            <h3>{recipe.title}</h3>
-            <p>Час приготування: {recipe.time}</p>
-            <p>Інгредієнти: {recipe.ingredients}</p>
-          </article>
-        ))}
+        {Array.isArray(recipes) &&
+          recipes.map((recipe, index) => (
+            <article key={index} className="recipe-card">
+              <img src={recipe.image} alt={recipe.title} />
+              <h3>{recipe.title}</h3>
+              <p>Час приготування: {recipe.time}</p>
+              <p>Інгредієнти: {recipe.ingredients}</p>
+            </article>
+          ))}
       </div>
     </main>
   );

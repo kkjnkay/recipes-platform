@@ -9,3 +9,5 @@ client/build/
 # Mac/Win
 .DS_Store
 Thumbs.db
+
+serviceAccountKey.json

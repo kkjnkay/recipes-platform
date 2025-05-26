@@ -3,6 +3,7 @@ const cors = require('cors');
 const app = express();
 require('dotenv').config();
 
+// ✅ Дозволити CORS
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
@@ -16,6 +17,7 @@ app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
 
+// ✅ Firebase Admin SDK
 const admin = require('firebase-admin');
 const serviceAccount = require('./serviceAccountKey.json');
 
@@ -25,10 +27,17 @@ admin.initializeApp({
 
 const db = admin.firestore();
 
+// ✅ Тестовий маршрут
 app.get('/api/message', (req, res) => {
   res.json({ message: 'Hello from the backend!' });
 });
 
+// ✅ Новий маршрут для кореневої сторінки
+app.get('/', (req, res) => {
+  res.send('✅ Сервер запущено. Використовуйте /api/ для запитів.');
+});
+
+// ✅ Отримання рецептів для конкретного користувача
 app.get('/api/recipes', async (req, res) => {
   const uid = req.query.uid;
 
@@ -51,6 +60,7 @@ app.get('/api/recipes', async (req, res) => {
   }
 });
 
+// ✅ Додавання рецепта
 app.post('/api/recipes', async (req, res) => {
   const data = req.body;
 
@@ -67,6 +77,8 @@ app.post('/api/recipes', async (req, res) => {
   }
 });
 
+// ✅ Запуск сервера
 app.listen(PORT, () => {
   console.log(`🚀 Server running on port ${PORT}`);
 });
+

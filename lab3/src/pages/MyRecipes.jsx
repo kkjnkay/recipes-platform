@@ -16,7 +16,7 @@ export default function MyRecipes() {
   const auth = getAuth();
   const unsubscribe = auth.onAuthStateChanged(currentUser => {
     if (currentUser) {
-      fetch(`http://localhost:5000/api/recipes?uid=${currentUser.uid}`)
+      fetch(`https://recipes-server-zdpq.onrender.com/api/recipes?uid=${currentUser.uid}`)
         .then(res => res.json())
         .then(data => {
           if (Array.isArray(data)) {
@@ -55,7 +55,7 @@ export default function MyRecipes() {
       uid: user.uid
     };
 
-    fetch('http://localhost:5000/api/recipes', {
+    fetch('https://recipes-server-zdpq.onrender.com', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newRecipe)
@@ -66,7 +66,7 @@ export default function MyRecipes() {
         setTime('');
         setIngredients('');
         setImage('');
-        return fetch(`http://localhost:5000/api/recipes?uid=${user.uid}`);
+        return fetch(`https://recipes-server-zdpq.onrender.com/api/recipes?uid=${user.uid}`);
       })
       .then(res => res.json())
       .then(data => setRecipes(Array.isArray(data) ? data : []))
